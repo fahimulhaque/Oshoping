@@ -1,0 +1,56 @@
+<p>
+  <a routerLink="/admin/products/new" class="btn btn-primary">New Product</a>
+</p>
+
+<p>
+  <input #query (keyup)="filter(query.value)" type="text" class="form-control" placeholder="search...">
+</p>
+
+<!-- <table class="table">
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>price</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let p of filteredProducts">
+      <td>{{p.payload.node_.children_.root_.right.value.value_}}</td>
+      <td>{{p.payload.node_.children_.root_.value.value_ | currency:'USD'}}</td>
+      <td>
+        <a [routerLink]="['/admin/products/' , p.key]">edit</a>
+      </td>
+    </tr>
+  </tbody>
+</table> -->
+
+<table class="table table-striped" [mfData]="filteredProducts" #mf="mfDataTable" [mfRowsOnPage]="5">
+    <thead>
+    <tr>
+        <th style="width: 20%">
+            <mfDefaultSorter by="payload.node_.children_.root_.right.value.value_">Title</mfDefaultSorter>
+        </th>
+        <th style="width: 50%">
+            <mfDefaultSorter by="payload.node_.children_.root_.value.value_">Price</mfDefaultSorter>
+        </th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let p of mf.data">
+        <td>{{p.payload.val().title}}</td>
+        <td>{{p.payload.val().price | currency:'USD'}}</td>
+        <td>
+          <a [routerLink]="['/admin/products/' , p.key]">edit</a>
+        </td>
+    </tr>
+    </tbody>
+    <tfoot>
+    <tr>
+        <td colspan="4">
+            <mfBootstrapPaginator [rowsOnPageSet]="[5,10,20]"></mfBootstrapPaginator>
+        </td>
+    </tr>
+    </tfoot>
+</table>
